@@ -8,8 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.json.JSONException;
 
-import edu.umass.cs.gigapaxos.InterfaceRequest;
-import edu.umass.cs.gigapaxos.RequestCallback;
+import edu.umass.cs.gigapaxos.interfaces.Request;
+import edu.umass.cs.gigapaxos.interfaces.RequestCallback;
 import edu.umass.cs.reconfiguration.ReconfigurableAppClientAsync;
 import edu.umass.cs.reconfiguration.examples.AppRequest;
 import edu.umass.cs.reconfiguration.reconfigurationpackets.CreateServiceName;
@@ -59,7 +59,7 @@ public class EtherpadReconfigurableClient extends ReconfigurableAppClientAsync {
 					new RequestCallback() {
 
 						@Override
-						public void handleResponse(InterfaceRequest response) {
+						public void handleResponse(Request response) {
 							int count = numResponses.get(name);
 							count++;
 							numResponses.put(name, count);
@@ -111,7 +111,7 @@ public class EtherpadReconfigurableClient extends ReconfigurableAppClientAsync {
 					new RequestCallback() {
 
 						@Override
-						public void handleResponse(InterfaceRequest response) {
+						public void handleResponse(Request response) {
 							try {
 								client.testSendBunchOfRequests(name);
 							} catch (IOException | JSONException e) {

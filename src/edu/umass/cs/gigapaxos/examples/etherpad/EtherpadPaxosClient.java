@@ -6,10 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.json.JSONException;
 
-import edu.umass.cs.gigapaxos.InterfaceRequest;
 import edu.umass.cs.gigapaxos.PaxosClientAsync;
 import edu.umass.cs.gigapaxos.PaxosConfig;
-import edu.umass.cs.gigapaxos.RequestCallback;
+import edu.umass.cs.gigapaxos.interfaces.Request;
+import edu.umass.cs.gigapaxos.interfaces.RequestCallback;
 
 /**
  * @author arun
@@ -70,13 +70,14 @@ public class EtherpadPaxosClient extends PaxosClientAsync {
 			etherpadClient.sendRequest(PaxosConfig.application.getSimpleName()+"0",
 					requestValue, new RequestCallback() {
 			*/
-			InetSocketAddress server = etherpadClient.servers[0];
+			//InetSocketAddress server = etherpadClient.servers[0];
 			//System.out.println(server);
 			//System.out.println("L1 Start: " + System.currentTimeMillis());
+			
 			etherpadClient.sendRequest(PaxosConfig.application.getSimpleName()+"0",
-					requestValue, server, new RequestCallback() {
+					requestValue, new RequestCallback() {
 						@Override
-						public void handleResponse(InterfaceRequest response) {
+						public void handleResponse(Request response) {
 							//System.out.println("L6 Stop: " + System.currentTimeMillis());
 							long endTime =System.nanoTime();
 							int requestNumber = Integer.parseInt((requestValue.split(","))[0]);

@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import edu.umass.cs.gigapaxos.InterfaceClientRequest;
-import edu.umass.cs.gigapaxos.InterfaceRequest;
+import edu.umass.cs.gigapaxos.interfaces.ClientRequest;
+import edu.umass.cs.gigapaxos.interfaces.Request;
+import edu.umass.cs.gigapaxos.interfaces.RequestCallback;
 import edu.umass.cs.gigapaxos.PaxosClientAsync;
 import edu.umass.cs.gigapaxos.PaxosConfig;
-import edu.umass.cs.gigapaxos.RequestCallback;
+
 
 /**
  * @author arun
@@ -50,7 +51,7 @@ public class NoopClient extends PaxosClientAsync {
 					requestValue, new RequestCallback() {
 
 						@Override
-						public void handleResponse(InterfaceRequest response) {
+						public void handleResponse(Request response) {
 							long endTime = System.nanoTime();
 							numResponses++;
 							int j = Integer.parseInt(requestValue.substring(requestValue.length() - 1));
@@ -59,7 +60,7 @@ public class NoopClient extends PaxosClientAsync {
 									.println("Response for request ["
 											+ requestValue
 											+ "] = "
-											+ (response instanceof InterfaceClientRequest ? ((InterfaceClientRequest) response)
+											+ (response instanceof ClientRequest ? ((ClientRequest) response)
 													.getResponse() : null));
 							if(numResponses == numRequests) {
 								for(int i = 0; i < numRequests; i++){

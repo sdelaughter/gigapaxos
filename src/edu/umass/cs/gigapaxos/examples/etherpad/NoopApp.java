@@ -2,21 +2,21 @@ package edu.umass.cs.gigapaxos.examples.etherpad;
 
 import java.util.Set;
 
-import edu.umass.cs.gigapaxos.InterfaceReplicable;
-import edu.umass.cs.gigapaxos.InterfaceRequest;
 import edu.umass.cs.gigapaxos.examples.PaxosAppRequest;
+import edu.umass.cs.gigapaxos.interfaces.Replicable;
+import edu.umass.cs.gigapaxos.interfaces.Request;
 import edu.umass.cs.gigapaxos.paxospackets.RequestPacket;
-import edu.umass.cs.nio.IntegerPacketType;
+import edu.umass.cs.nio.interfaces.IntegerPacketType;
 import edu.umass.cs.reconfiguration.reconfigurationutils.RequestParseException;
 
 /**
  * @author arun
  *
  */
-public class NoopApp implements InterfaceReplicable {
+public class NoopApp implements Replicable {
 
 	@Override
-	public boolean handleRequest(InterfaceRequest request) {
+	public boolean execute(Request request) {
 		// execute request here
 
 		// set response if request instanceof InterfaceClientRequest
@@ -34,22 +34,22 @@ public class NoopApp implements InterfaceReplicable {
 	}
 
 	@Override
-	public boolean handleRequest(InterfaceRequest request,
+	public boolean execute(Request request,
 			boolean doNotReplyToClient) {
 		// execute request without replying back to client
 
 		// identical to above unless app manages its own messaging
-		return this.handleRequest(request);
+		return this.execute(request);
 	}
 
 	@Override
-	public String getState(String name) {
+	public String checkpoint(String name) {
 		// should return checkpoint state here
 		return null;
 	}
 
 	@Override
-	public boolean updateState(String name, String state) {
+	public boolean restore(String name, String state) {
 		// should update checkpoint state here for name
 		return true;
 	}
@@ -59,7 +59,7 @@ public class NoopApp implements InterfaceReplicable {
 	 * {@link NoopApp} for a more detailed example.
 	 */
 	@Override
-	public InterfaceRequest getRequest(String stringified)
+	public Request getRequest(String stringified)
 			throws RequestParseException {
 		// TODO Auto-generated method stub
 		return null;

@@ -2,11 +2,11 @@ package edu.umass.cs.gigapaxos.examples.etherpad;
 
 import java.util.HashMap;
 import java.util.Set;
-import edu.umass.cs.gigapaxos.InterfaceReplicable;
-import edu.umass.cs.gigapaxos.InterfaceRequest;
 import edu.umass.cs.gigapaxos.examples.PaxosAppRequest;
+import edu.umass.cs.gigapaxos.interfaces.Replicable;
+import edu.umass.cs.gigapaxos.interfaces.Request;
 import edu.umass.cs.gigapaxos.paxospackets.RequestPacket;
-import edu.umass.cs.nio.IntegerPacketType;
+import edu.umass.cs.nio.interfaces.IntegerPacketType;
 import edu.umass.cs.reconfiguration.examples.noop.NoopApp;
 import edu.umass.cs.reconfiguration.reconfigurationutils.RequestParseException;
 import net.gjerull.etherpad.client.EPLiteClient;
@@ -19,7 +19,7 @@ import net.gjerull.etherpad.client.EPLiteClient;
  * @throws JSONException
  */
 
-public class EtherpadPaxosApp implements InterfaceReplicable {
+public class EtherpadPaxosApp implements Replicable {
 	
 	final static String hostName = "http://localhost:9001";
 	final static String apiKey = "1c0bf70295313687cfdc2a4b839c1b91386d385418961a6fcef1dee457c92c75";
@@ -27,7 +27,7 @@ public class EtherpadPaxosApp implements InterfaceReplicable {
 	final static String delimiter = ",";
 
 	@Override
-	public boolean handleRequest(InterfaceRequest request) {
+	public boolean execute(Request request) {
 		// execute request here
 		//System.out.println("L1 Stop: " + System.currentTimeMillis());
 		String requestString = ((RequestPacket) request).requestValue;
@@ -58,22 +58,22 @@ public class EtherpadPaxosApp implements InterfaceReplicable {
 	}
 
 	@Override
-	public boolean handleRequest(InterfaceRequest request,
+	public boolean execute(Request request,
 			boolean doNotReplyToClient) {
 		// execute request without replying back to client
 
 		// identical to above unless app manages its own messaging
-		return this.handleRequest(request);
+		return this.execute(request);
 	}
 
 	@Override
-	public String getState(String name) {
+	public String checkpoint(String name) {
 		// should return checkpoint state here
 		return null;
 	}
 
 	@Override
-	public boolean updateState(String name, String state) {
+	public boolean restore(String name, String state) {
 		// should update checkpoint state here for name
 		return true;
 	}
@@ -83,7 +83,7 @@ public class EtherpadPaxosApp implements InterfaceReplicable {
 	 * {@link NoopApp} for a more detailed example.
 	 */
 	@Override
-	public InterfaceRequest getRequest(String stringified)
+	public Request getRequest(String stringified)
 			throws RequestParseException {
 		// TODO Auto-generated method stub
 		return null;

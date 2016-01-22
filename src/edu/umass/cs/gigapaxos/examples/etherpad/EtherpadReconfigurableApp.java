@@ -27,18 +27,18 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.umass.cs.gigapaxos.InterfaceClientMessenger;
-import edu.umass.cs.gigapaxos.InterfaceReplicable;
-import edu.umass.cs.gigapaxos.InterfaceRequest;
 import edu.umass.cs.gigapaxos.examples.PaxosAppRequest;
+import edu.umass.cs.gigapaxos.interfaces.ClientMessenger;
+import edu.umass.cs.gigapaxos.interfaces.Replicable;
+import edu.umass.cs.gigapaxos.interfaces.Request;
 import edu.umass.cs.gigapaxos.paxospackets.RequestPacket;
-import edu.umass.cs.nio.IntegerPacketType;
-import edu.umass.cs.nio.InterfaceSSLMessenger;
+import edu.umass.cs.nio.interfaces.IntegerPacketType;
+import edu.umass.cs.nio.interfaces.SSLMessenger;
 import edu.umass.cs.reconfiguration.Reconfigurator;
 import edu.umass.cs.reconfiguration.examples.AbstractReconfigurablePaxosApp;
 import edu.umass.cs.reconfiguration.examples.AppRequest;
 import edu.umass.cs.reconfiguration.examples.AppRequest.ResponseCodes;
-import edu.umass.cs.reconfiguration.interfaces.InterfaceReconfigurable;
+import edu.umass.cs.reconfiguration.interfaces.Reconfigurable;
 import edu.umass.cs.reconfiguration.reconfigurationutils.RequestParseException;
 import net.gjerull.etherpad.client.EPLiteClient;
 
@@ -48,7 +48,7 @@ import net.gjerull.etherpad.client.EPLiteClient;
  *         A simple no-op application example.
  */
 public class EtherpadReconfigurableApp extends AbstractReconfigurablePaxosApp<String> implements
-		InterfaceReplicable, InterfaceReconfigurable, InterfaceClientMessenger {
+		Replicable, Reconfigurable, ClientMessenger {
 
 	private static final String DEFAULT_INIT_STATE = "";
 	
@@ -81,7 +81,7 @@ public class EtherpadReconfigurableApp extends AbstractReconfigurablePaxosApp<St
 	private String myID; // used only for pretty printing
 	private final HashMap<String, AppData> appData = new HashMap<String, AppData>();
 	// only address based communication needed in app
-	private InterfaceSSLMessenger<?, JSONObject> messenger;
+	private SSLMessenger<?, JSONObject> messenger;
 
 	/**
 	 * Default constructor used to create app replica via reflection.
@@ -91,13 +91,13 @@ public class EtherpadReconfigurableApp extends AbstractReconfigurablePaxosApp<St
 
 	// Need a messenger mainly to send back responses to the client.
 	@Override
-	public void setClientMessenger(InterfaceSSLMessenger<?, JSONObject> msgr) {
+	public void setClientMessenger(SSLMessenger<?, JSONObject> msgr) {
 		this.messenger = msgr;
 		this.myID = msgr.getMyID().toString();
 	}
 
 	@Override
-	public boolean handleRequest(InterfaceRequest request,
+	public boolean execute(Request request,
 			boolean doNotReplyToClient) {
 		// execute request here
 				//System.out.println("L1 Stop: " + System.currentTimeMillis());
@@ -188,10 +188,10 @@ public class EtherpadReconfigurableApp extends AbstractReconfigurablePaxosApp<St
 	}
 
 	@Override
-	public InterfaceRequest getRequest(String stringified)
+	public Request getRequest(String stringified)
 			throws RequestParseException {
 		AppRequest request = null;
-		if (stringified.equals(InterfaceRequest.NO_OP)) {
+		if (stringified.equals(Request.NO_OP)) {
 			return this.getNoopRequest();
 		}
 		try {
@@ -207,8 +207,8 @@ public class EtherpadReconfigurableApp extends AbstractReconfigurablePaxosApp<St
 	/*
 	 * This is a special no-op request unlike any other NoopAppRequest.
 	 */
-	private InterfaceRequest getNoopRequest() {
-		return new AppRequest(null, 0, 0, InterfaceRequest.NO_OP,
+	private Request getNoopRequest() {
+		return new AppRequest(null, 0, 0, Request.NO_OP,
 				AppRequest.PacketType.DEFAULT_APP_REQUEST, false);
 	}
 
@@ -222,18 +222,18 @@ public class EtherpadReconfigurableApp extends AbstractReconfigurablePaxosApp<St
 	}
 
 	@Override
-	public boolean handleRequest(InterfaceRequest request) {
-		return this.handleRequest(request, false);
+	public boolean execute(Request request) {
+		return this.execute(request, false);
 	}
 
 	@Override
-	public String getState(String name) {
+	public String checkpoint(String name) {
 		AppData data = this.appData.get(name);
 		return data != null ? data.getState() : null;
 	}
 
 	@Override
-	public boolean updateState(String name, String state) {
+	public boolean restore(String name, String state) {
 		AppData data = this.appData.get(name);
 		/*
 		 * If no previous state, set epoch to initial epoch, otherwise
