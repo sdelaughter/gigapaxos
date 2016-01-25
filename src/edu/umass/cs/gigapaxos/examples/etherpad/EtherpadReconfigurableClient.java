@@ -28,8 +28,8 @@ public class EtherpadReconfigurableClient extends ReconfigurableAppClientAsync {
 	final static int minDelay = 125;
 	final static int maxDelay = 250; 
 	
-	final static int numNames = 10;
-	final static int numRequests = 100;
+	final static int numNames = 1;
+	final static int numRequests = 10;
 	static Map<String, Integer> numResponses = new HashMap<String, Integer>();
 	
 	/**
