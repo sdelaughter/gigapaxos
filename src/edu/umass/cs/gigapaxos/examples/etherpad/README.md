@@ -68,7 +68,7 @@
 
 ### Clone the gigapaxos repository
     cd
-    git clone https://github.com/MobilityFirst/gigapaxos
+    git clone https://github.com/MobilityFirst/gigapaxos.git
 
 ### Move the files included with this README into place
     mv gigapaxos-etherpad/net ~/gigapaxos/src/
