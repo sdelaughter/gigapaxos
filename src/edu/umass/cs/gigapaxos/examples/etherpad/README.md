@@ -71,8 +71,8 @@
     git clone https://github.com/MobilityFirst/gigapaxos
 
 ### Move the files included with this README into place
-The ‘net’ folder included contains the Java API for etherpad
-The ‘etherpad’ folder contains the example programs for testing gigapaxos with etherpad
+ - The ‘net’ folder included contains the Java API for etherpad
+ - The ‘etherpad’ folder contains the example programs for testing gigapaxos with etherpad
 
     mv gigapaxos-etherpad/net ~/gigapaxos/src/
     mv gigapaxos-etherpad/etherpad ~/gigapaxos/src/edu/umass/cs/gigapaxos/examples/
