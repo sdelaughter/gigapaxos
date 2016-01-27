@@ -12,9 +12,10 @@ import edu.umass.cs.gigapaxos.interfaces.Request;
 import edu.umass.cs.gigapaxos.interfaces.RequestCallback;
 
 /**
- * @author arun
+ * @author Sam DeLaughter
  * 
- *         A simple client for EtherpadApp.
+ *         A simple client for EtherpadPaxosApp.
+ *         Takes one argument for the number of requests to send.
  */
 public class EtherpadPaxosClient extends PaxosClientAsync {
 	
