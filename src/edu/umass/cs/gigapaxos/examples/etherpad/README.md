@@ -73,7 +73,7 @@
    - Open a web browser port 9001 on the server as in the above section.
    - Type 'foo' (without the quotes) into the text box and click "OK".
    - You should be taken to the pad, with a message that starts: "Welcome to Etherpad!"
-   - You can feel free to modify this text if you'd like to experiment with etherpad.  As long as the 'foo' pad exists the program will work.
+   - You can feel free to modify this text if you'd like to experiment with etherpad.  As long as the 'foo' pad exists the program will work, just be aware that running EtherpadPaxosClient/App will overwrite the entire text of the pad.
 
 ### Clone the gigapaxos repository
     cd
