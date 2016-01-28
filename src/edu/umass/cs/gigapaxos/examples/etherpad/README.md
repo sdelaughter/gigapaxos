@@ -98,4 +98,10 @@ Note that the included gigapaxos.properties file is set up to run all active rep
 ### Start the Client
     java -ea -cp dist/gigapaxos-1.0.jar -DgigapaxosConfig=src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.examples.etherpad.EtherpadPaxosClient 100
 
-EtherpadPaxosClient takes one argument: the number of requests to send the server(s).  When finished, it will print the average delay per request.
+EtherpadPaxosClient takes one argument: the number of requests to send the server(s).
+
+### Verify the results
+ - When finished, EtherpadPaxosClient will print the average delay per request.
+ - To verify that the requests were actually processed, you can either:
+   - Open a web browser to port X.X.X.X:9001/p/foo (where X.X.X.X is the etherpad server's IP) and confirm that the pad's text consists solely of the word 'bar'
+   - Reattach to the screen session in which the etherpad server's run.sh script is running and view its output
