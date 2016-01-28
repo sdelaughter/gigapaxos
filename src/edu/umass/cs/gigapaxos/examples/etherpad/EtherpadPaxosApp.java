@@ -133,6 +133,9 @@ public class EtherpadPaxosApp implements Replicable {
 		} else if(requestType.equals("setText")) {
 				client.setText(components[2], components[3]);
 				responseString = ("Successfully set text of pad " + components[2] + " to " + components[3]);
+				if(responseString.get(2)["message"] == "padID does not exist"){
+					System.out.println("padID does not exist");
+				}
 
 		} else if(requestType.equals("getText")) {
 				HashMap response = client.getText(components[1]);
