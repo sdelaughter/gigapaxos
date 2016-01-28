@@ -93,7 +93,8 @@
 ### Start the Servers
     java -ea -cp dist/gigapaxos-1.0.jar -DgigapaxosConfig=src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 100 101 102
 
-Note that the included gigapaxos.properties file is set up to run all active replicas (100, 101, 102) on localhost (ports 2000, 2001, 2002)
+ - Note that the included gigapaxos.properties file is set up to run all active replicas (100, 101, 102) on localhost (ports 2000, 2001, 2002)
+ - You'll likely want to remove the logs from past runs before running a subsequent one.  To do so, simply delete ~/gigapaxos/paxos_logs
 
 ### Start the Client
     java -ea -cp dist/gigapaxos-1.0.jar -DgigapaxosConfig=src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.examples.etherpad.EtherpadPaxosClient 100
