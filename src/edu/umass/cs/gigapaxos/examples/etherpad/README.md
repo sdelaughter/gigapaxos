@@ -66,6 +66,15 @@
  - Open a web browser and navigate to X:9001 (where X is the server’s public IP address or public DNS name).  You should see a screen with a “New Pad” button and a text box in which you can enter the name of a pad to create/open.
  - Note that you can also access the admin console for the etherpad server at X:9001/admin (you’ll be prompted to log in with the admin credentials you set in settings.json in the Configure Etherpad section above).  This will allow you to manage plugins, edit settings.json, and restart the etherpad server.  You can also view information about the server’s current version and its installed plugins, parts, and hooks.
 
+### Create the pad to be used for testing
+ - EtherpadPaxosClient will send a number of requests to EtherpadPaxosApp, requesting to set the text of a pad titled 'foo' to 'bar'.
+ - There is currently no error handling in either the client or the app to deal with a case where the pad 'foo' does not yet exist, so you must create this pad on each etherpad server before running the program.  Note that failure to do so will not cause the Client or App to fail, and in fact the client will still display an average delay metric upon completion.  The only way to see the failures is by reattaching to the screen session that the etherpad server's run.sh script is running in.
+ - To create the testing pad:
+   - Open a web browser port 9001 on the server as in the above section.
+   - Type 'foo' (without the quotes) into the text box and click "OK".
+   - You should be taken to the pad, with a message that starts: "Welcome to Etherpad!"
+   - You can feel free to modify this text if you'd like to experiment with etherpad.  As long as the 'foo' pad exists the program will work.
+
 ### Clone the gigapaxos repository
     cd
     git clone https://github.com/MobilityFirst/gigapaxos.git
