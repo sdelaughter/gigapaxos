@@ -63,8 +63,8 @@
 
 ### Verify that the server is running
  - By default, etherpad runs on port 9001, though if needed you can change this by editing the “port” value in settings.json
- - Open a web browser and navigate to X:9001 (where X is the server’s public IP address or public DNS name).  You should see a screen with a “New Pad” button and a text box in which you can enter the name of a pad to create/open.
- - Note that you can also access the admin console for the etherpad server at X:9001/admin (you’ll be prompted to log in with the admin credentials you set in settings.json in the Configure Etherpad section above).  This will allow you to manage plugins, edit settings.json, and restart the etherpad server.  You can also view information about the server’s current version and its installed plugins, parts, and hooks.
+ - Open a web browser and navigate to X.X.X.X:9001 (where X.X.X.X is the server’s IP address).  You should see a screen with a “New Pad” button and a text box in which you can enter the name of a pad to create/open.
+ - Note that you can also access the admin console for the etherpad server at X.X.X.X:9001/admin (you’ll be prompted to log in with the admin credentials you set in settings.json in the Configure Etherpad section above).  This will allow you to manage plugins, edit settings.json, and restart the etherpad server.  You can also view information about the server’s current version and its installed plugins, parts, and hooks.
 
 ### Create the pad to be used for testing
  - EtherpadPaxosClient will send a number of requests to EtherpadPaxosApp, requesting to set the text of a pad titled 'foo' to 'bar'.
