@@ -78,8 +78,7 @@
    - You can feel free to modify this text if you'd like to experiment with etherpad.  As long as the 'foo' pad exists the program will work, just be aware that running EtherpadPaxosClient/App will overwrite the entire text of the pad.
 
 ###### 14. Create additional copies of etherpad
- - In order to run a single-machine test, you'll need at least three distinct etherpad servers running on the same EC2 instance, each on a different port.  It's easiest to create the copies after performing the steps above to avoid repeating the setup processes for each one.
- - You should stop the etherpad server before entering the following commands, assuming it's still running from the previous step
+In order to run a single-machine test, you'll need at least three distinct etherpad servers running on the same EC2 instance, each on a different port.  It's easiest to create the copies after performing the steps above to avoid repeating the setup processes for each one.  You should stop the etherpad server before entering the following commands, assuming it's still running from the previous step.
 
     cd ~/etherpad
     mv etherpad-lite etherpad-lite-1
