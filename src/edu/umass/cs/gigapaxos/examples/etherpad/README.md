@@ -1,3 +1,5 @@
+##Installation and Configuration
+
 ###Create EC2 Instance
  - 64-bit linux (t2.micro)
  - Make sure all traffic is open (ignore the security warning)
@@ -89,6 +91,32 @@
 ### Compile the jar
     cd ~/gigapaxos
     ant
+
+
+
+#Running
+
+##Testing on a single machine
+
+###Start the Servers
+You'll need to open 3 separate SSH sessions, one for each server instance.  Alternatively, you could use the screen command to launch all instances with a single session, but this will make it more difficult to watch the output.
+
+####On the first session
+    cd ~/etherpad/etherpad-lite-1
+    rm -rf paxos_logs
+    java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 101
+
+####On the second session
+    cd ~/etherpad/etherpad-lite-2
+    rm -rf paxos_logs
+    java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 102
+    
+####On the third session
+    cd ~/etherpad/etherpad-lite-3
+    rm -rf paxos_logs
+    java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 103
+
+
 
 ### Start the Servers
     java -ea -cp dist/gigapaxos-1.0.jar -DgigapaxosConfig=src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 100 101 102
