@@ -1,8 +1,8 @@
 ##Install and Configure
 
-###### 1. Create EC2 Instance
+###### 1. Create an Amazon EC2 Instance
  - 64-bit linux (t2.micro)
- - Make sure all traffic is open (ignore the security warning)
+ - Make sure all network traffic is open (ignore the security warning)
 
 ###### 2. SSH to the Instance
 
@@ -94,7 +94,7 @@ In order to run a single-machine test, you'll need at least three distinct ether
    - Make sure that if you modify the text on one etherpad server you don't see the change on either of the others (to confirm that they are in fact three separate servers with three separate databases)
 
 ###### 17. Clone the Gigapaxos Repository
-    cd ~
+    cd
     git clone https://github.com/MobilityFirst/gigapaxos.git
 
 ###### 18. Move the files included with this README into place
@@ -129,7 +129,7 @@ In order to run a single-machine test, you'll need at least three distinct ether
     java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 103
     
 ###### On the Fourth Session (Client)
-    cd ~
+    cd ~/gigapaxos
     rm -rf paxos_logs
     java -ea -cp dist/gigapaxos-1.0.jar -DgigapaxosConfig=src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.examples.etherpad.EtherpadPaxosClient 500
     
