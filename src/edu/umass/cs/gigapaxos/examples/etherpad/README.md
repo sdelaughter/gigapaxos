@@ -1,10 +1,10 @@
-##Installation and Configuration
+##Install and Configure
 
 ###### 1. Create EC2 Instance
  - 64-bit linux (t2.micro)
  - Make sure all traffic is open (ignore the security warning)
 
-###### 2. SSH to the instance
+###### 2. SSH to the Instance
 
 ###### 3. Update Packages
     sudo yum update
@@ -25,7 +25,7 @@
     echo 'export ANT_HOME=/usr/local/apache-ant' >> ~/.bashrc
     echo 'export PATH=$PATH:/usr/local/apache-ant/bin' >> ~/.bashrc
 
-###### 7. Install Node.JS v0.12.6 from source
+###### 7. Install Node.JS v0.12.6 from Source
     cd /tmp
     wget http://nodejs.org/dist/v0.12.6/node-v0.12.6.tar.gz
     tar xvf node-v0.12.6.tar.gz
@@ -40,7 +40,7 @@
     cd etherpad
     git clone git://github.com/ether/etherpad-lite.git
 
-###### 9. Make sure you can start the Etherpad Server
+###### 9. Test Start the Etherpad Server
     ~/etherpad/etherpad-lite/bin/run.sh
     Ctl-c
     
@@ -49,8 +49,6 @@
  - You will also get a warning that no Admin credentials have been set.  This is addressed below. 
  - The server runs indefinitely when started.  When you want to leave it running, you should launch it with screen, but you can just kill it with Ctl-C the first time.
  - Note that there’s no clear indication that the server has started successfully — as soon as you see a message about the plugin admin page (or a warning that admin credentials have not been set), it’s up and running.
-
-
 
 ###### 10. Configure Etherpad
  - Open ~/etherpad/etherpad-lite/settings.json in a text editor
@@ -63,12 +61,12 @@
  - You can detach from the screen to leave it running in the background by typing Ctrl-a d
  - Once detached, you can reattach the running screen session with screen -x
 
-###### 12. Verify that the etherpad server is running
+###### 12. Verify that the Etherpad Server is Running
  - By default, etherpad runs on port 9001, though if needed you can change this by editing the “port” value in settings.json
  - Open a web browser and navigate to X.X.X.X:9001 (where X.X.X.X is the server’s IP address).  You should see a screen with a “New Pad” button and a text box in which you can enter the name of a pad to create/open.
  - Note that you can also access the admin console for the etherpad server at X.X.X.X:9001/admin (you’ll be prompted to log in with the admin credentials you set in settings.json in the Configure Etherpad section above).  This will allow you to manage plugins, edit settings.json, and restart the etherpad server.  You can also view information about the server’s current version and its installed plugins, parts, and hooks.
 
-###### 13. Create the pad to be used for testing
+###### 13. Create the Testing Pad
  - EtherpadPaxosClient will send a number of requests to EtherpadPaxosApp, requesting to set the text of a pad titled 'foo' to 'bar'.
  - There is currently no error handling in either the client or the app to deal with a case where the pad 'foo' does not yet exist, so you must create this pad on each etherpad server before running the program.  Note that failure to do so will not cause the Client or App to fail, and in fact the client will still display an average delay metric upon completion.  The only way to see the failures is by reattaching to the screen session that the etherpad server's run.sh script is running in.
  - To create the testing pad:
@@ -77,7 +75,7 @@
    - You should be taken to the pad, with a message that starts: "Welcome to Etherpad!"
    - You can feel free to modify this text if you'd like to experiment with etherpad.  As long as the 'foo' pad exists the program will work, just be aware that running EtherpadPaxosClient/App will overwrite the entire text of the pad.
 
-###### 14. Create additional copies of etherpad
+###### 14. Create Copies of Etherpad
 In order to run a single-machine test, you'll need at least three distinct etherpad servers running on the same EC2 instance, each on a different port.  It's easiest to create the copies after performing the steps above to avoid repeating the setup processes for each one.  You should stop the etherpad server before entering the following commands, assuming it's still running from the previous step.
 
     cd ~/etherpad
@@ -85,60 +83,59 @@ In order to run a single-machine test, you'll need at least three distinct ether
     cp -av etherpad-lite-1 etherpad-lite-2
     cp -av etherpad-lite-1 etherpad-lite-3
     
-###### 15. Configuring the port for each etherpad server
+###### 15. Configure the Port for each Etherpad Server
  - Once you've created copies of the etherpad-lite directory, you'll need to specify a differnt port number for each one to use.  Theoretically, you can use just about any port number you like as EtherpadPaxosApp will read the value from settigns.json when it starts, but it has only been tested with ports 9001-9003.
  - You'll need to modify the port value in the settings.json file in each ~/etherpad/etherpad-lite-X folder that you created above
  - I'd recommend setting etherpad-lite-1 to 9001, etherpad-lite-2 to 9002, and etherpad-lite-3 to 9003
 
-###### 16. Start the etherpad servers
+###### 16. Start the Etherpad Servers
  - The same as in step 11 above, but for each of the three run.sh scripts in the etherpad-lite-X folders
  - You may also want to verify that they're all running as in step 12 above, but with the ports you specified in step 15
    - Make sure that if you modify the text on one etherpad server you don't see the change on either of the others (to confirm that they are in fact three separate servers with three separate databases)
 
-###### 17. Clone the gigapaxos repository
+###### 17. Clone the Gigapaxos Repository
     cd ~
     git clone https://github.com/MobilityFirst/gigapaxos.git
 
 ###### 18. Move the files included with this README into place
     mv gigapaxos-etherpad/net ~/gigapaxos/src/
     mv gigapaxos-etherpad/etherpad ~/gigapaxos/src/edu/umass/cs/gigapaxos/examples/
- - The ‘net’ folder included contains the Java API for etherpad
+ - The ‘net’ folder contains the Java API for etherpad
  - The ‘etherpad’ folder contains the example programs for testing gigapaxos with etherpad
 
-
-###### 19. Compile the jar
+###### 19. Compile the JAR
     cd ~/gigapaxos
     ant
 
 
-#Running
+#Run
 
-###Testing on a single machine
+###Single Machine
  - You'll need to open 4 separate SSH sessions, one for each server instance and one for the client.  Alternatively, you could use the screen command to launch all instances from a single session, but that would make it much more difficult to monitor the output.
 
-###### On the first session
+###### On the First Session
     cd ~/etherpad/etherpad-lite-1
     rm -rf paxos_logs
     java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 101
 
-###### On the second session
+###### On the Second Session
     cd ~/etherpad/etherpad-lite-2
     rm -rf paxos_logs
     java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 102
     
-###### On the third session
+###### On the Third Session
     cd ~/etherpad/etherpad-lite-3
     rm -rf paxos_logs
     java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.PaxosServer 103
     
-###### On the fourth session (Client)
+###### On the Fourth Session (Client)
     cd ~
     rm -rf paxos_logs
     java -ea -cp dist/gigapaxos-1.0.jar -DgigapaxosConfig=src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.examples.etherpad.EtherpadPaxosClient 100
     
  - Note the 100 at the end of this command -- this is an argument specifying the number of requests to send to the servers.  You can set it to any integer you'd like, but there's currently no indication of progress so be prepared to wait if you enter a larger number.
 
-### Verifying the results
+### Verify the Results
  - When finished, EtherpadPaxosClient will print the average delay per request.
  - To verify that the requests were actually processed, you can either:
    - Open a web browser to port X.X.X.X:9001/p/foo (where X.X.X.X is the etherpad server's IP) and confirm that the pad's text consists solely of the word 'bar'
