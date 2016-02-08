@@ -133,7 +133,7 @@ In order to run a single-machine test, you'll need at least three distinct ether
     rm -rf paxos_logs
     java -ea -cp dist/gigapaxos-1.0.jar -DgigapaxosConfig=src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.examples.etherpad.EtherpadPaxosClient 100
     
- - Note the 100 at the end of this command -- this is an argument specifying the number of requests to send to the servers.  You can set it to any integer you'd like, but there's currently no indication of progress so be prepared to wait if you enter a larger number.
+ - Note the 100 at the end of the client command -- this is an argument specifying the number of requests to send to the servers.  You can set it to any positive integer you'd like, but there's currently no indication of progress so be prepared to wait if you enter a larger number.
 
 ### Verify the Results
  - When finished, EtherpadPaxosClient will print the average delay per request.
