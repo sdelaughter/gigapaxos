@@ -1,6 +1,6 @@
 ##Installation and Configuration
 
-######Create EC2 Instance
+#####Create EC2 Instance
  - 64-bit linux (t2.micro)
  - Make sure all traffic is open (ignore the security warning)
 
