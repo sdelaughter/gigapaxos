@@ -2,6 +2,7 @@ package edu.umass.cs.gigapaxos.examples.etherpad;
 
 import java.util.HashMap;
 import java.util.Set;
+import edu.umass.cs.gigapaxos.examples.etherpad.ReadPort;
 import edu.umass.cs.gigapaxos.examples.PaxosAppRequest;
 import edu.umass.cs.gigapaxos.interfaces.Replicable;
 import edu.umass.cs.gigapaxos.interfaces.Request;
@@ -10,6 +11,16 @@ import edu.umass.cs.nio.interfaces.IntegerPacketType;
 import edu.umass.cs.reconfiguration.examples.noop.NoopApp;
 import edu.umass.cs.reconfiguration.reconfigurationutils.RequestParseException;
 import net.gjerull.etherpad.client.EPLiteClient;
+import java.io.*;
+import org.json.*;
+
+
+//import java.io.FileReader;
+//import java.util.Iterator;
+ 
+//import org.json.simple.JSONArray;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
 
 /**
  * @author Sam DeLaughter
@@ -20,14 +31,17 @@ import net.gjerull.etherpad.client.EPLiteClient;
  */
 
 public class EtherpadPaxosApp implements Replicable {
-	
-	final static String hostName = "http://localhost:9001";
+
+	final static String port = getPort();
+	final static String hostName = "http://localhost:" + port;
 	final static String apiKey = "1c0bf70295313687cfdc2a4b839c1b91386d385418961a6fcef1dee457c92c75";
 	final static EPLiteClient client = new EPLiteClient(hostName, apiKey);
 	final static String delimiter = ",";
 
 	@Override
 	public boolean execute(Request request) {
+		System.out.println(hostName);
+
 		// execute request here
 		//System.out.println("L1 Stop: " + System.currentTimeMillis());
 		String requestString = ((RequestPacket) request).requestValue;
@@ -131,7 +145,7 @@ public class EtherpadPaxosApp implements Replicable {
 				responseString = ("Successfully deleted pad: " + components[2]);
 		
 		} else if(requestType.equals("setText")) {
-				client.setText(components[2], components[3]);
+				client.setText(components[2], port); //, components[3]);
 				responseString = ("Successfully set text of pad " + components[2] + " to " + components[3]);
 
 		} else if(requestType.equals("getText")) {
@@ -144,5 +158,34 @@ public class EtherpadPaxosApp implements Replicable {
 		}
 		return responseString;
 	}
-	
+
+	private static String getPort() {
+		String jsonData = readFile("settings.json");
+		int port = 9001;
+		try{
+			JSONObject jobj = new JSONObject(jsonData);
+			port = jobj.getInt("port");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Integer.toString(port);
+	}
+
+
+	private static String readFile(String filename) {
+                String result = "";
+                try {
+                     	BufferedReader br = new BufferedReader(new FileReader(filename));
+                        StringBuilder sb = new StringBuilder();
+                        String line = br.readLine();
+                        while (line != null) {
+                                sb.append(line);
+                                line = br.readLine();
+                        }
+                        result = sb.toString();
+                } catch(Exception e) {
+                        e.printStackTrace();
+                }
+                return result;
+        }	
 }
