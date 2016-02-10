@@ -150,7 +150,7 @@ In order to run a single-machine test, you'll need at least three distinct ether
     java -ea -cp /home/ec2-user/gigapaxos/dist/gigapaxos-1.0.jar -DgigapaxosConfig=/home/ec2-user/gigapaxos/src/edu/umass/cs/gigapaxos/examples/etherpad/gigapaxos.properties edu.umass.cs.gigapaxos.examples.etherpad.EtherpadPaxosClient 500
     
  - Note the 500 at the end of the client command -- this is an argument specifying the number of requests to send to the servers.  You can set it to any positive integer you'd like, but there's currently no indication of progress so be prepared to wait if you enter a very large number.
- - When running this command, you'll likely see a java.io.FileNotFoundException and org.json.JSONException.  These can safely be ignored, or (since the command doesn't contain any relative paths) you can run it from within one of the etherpad-lite-X folders to suppress the errors.
+ - When running this command, you'll likely see two error messages: java.io.FileNotFoundException and org.json.JSONException.  These can safely be ignored, or (since the command doesn't contain any relative paths) you can run it from within one of the etherpad-lite-X folders to suppress the errors.
 
 ### Verify the Results
  - When finished, EtherpadPaxosClient will print the average delay per request.
