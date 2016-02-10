@@ -96,18 +96,18 @@ In order to run a single-machine test, you'll need at least three distinct ether
    - Make sure that if you modify the text on one etherpad server you don't see the change on either of the others (to confirm that they are in fact three separate servers with three separate databases)
  - Note: Screen's -S option offers a handy way to label your screen sessions so that you can easily reattach a specific session to debug any issues.
    - For example, launch and detach from each one as follows:
-        ```
-        screen -S etherpad1 ~/etherpad/etherpad-lite-1/bin/run.sh
-        Ctrl-a d
-        screen -S etherpad2 ~/etherpad/etherpad-lite-2/bin/run.sh
-        Ctrl-a d
-        screen -S etherpad3 ~/etherpad/etherpad-lite-3/bin/run.sh
-        Ctrl-a d
-        ```
+    ```
+    screen -S etherpad1 ~/etherpad/etherpad-lite-1/bin/run.sh
+    Ctrl-a d
+    screen -S etherpad2 ~/etherpad/etherpad-lite-2/bin/run.sh
+    Ctrl-a d
+    screen -S etherpad3 ~/etherpad/etherpad-lite-3/bin/run.sh
+    Ctrl-a d
+    ```
    - Then you can reattach the etherpad-lite-2 server with:
-        ```
-        screen -r etherpad2
-        ```
+    ```
+    screen -r etherpad2
+    ```
     
 
 ###### 17. Clone the Gigapaxos Repository
