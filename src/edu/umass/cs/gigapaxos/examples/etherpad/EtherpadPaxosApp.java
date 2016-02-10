@@ -145,7 +145,7 @@ public class EtherpadPaxosApp implements Replicable {
 				responseString = ("Successfully deleted pad: " + components[2]);
 		
 		} else if(requestType.equals("setText")) {
-				client.setText(components[2], components[3]);
+				client.setText(components[2], port); //components[3]);
 				responseString = ("Successfully set text of pad " + components[2] + " to " + components[3]);
 
 		} else if(requestType.equals("getText")) {
