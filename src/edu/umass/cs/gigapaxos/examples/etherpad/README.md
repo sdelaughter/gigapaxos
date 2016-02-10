@@ -78,12 +78,12 @@
 
 ###### 14. Create Copies of Etherpad
 In order to run a single-machine test, you'll need at least three distinct etherpad servers running on the same EC2 instance, each on a different port.  It's easiest to create the copies after performing the steps above to avoid repeating the setup processes for each one.  You should stop the etherpad server before entering the following commands, assuming it's still running from the previous step.
-    ```
+    
     cd ~/etherpad
     mv etherpad-lite etherpad-lite-1
     cp -av etherpad-lite-1 etherpad-lite-2
     cp -av etherpad-lite-1 etherpad-lite-3
-    ```
+    
     
 ###### 15. Configure the Port for each Etherpad Server
  - Once you've created copies of the etherpad-lite directory, you'll need to specify a different port number for each server to use.  Theoretically, you can use just about any port number you like as EtherpadPaxosApp will read the value from settigns.json when it starts.  That said, it has only been tested with ports 9001-9003, and obviously whatever ports you choose will need to be unused by other applications.
