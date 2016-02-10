@@ -51,10 +51,11 @@
  - Note that there’s no clear indication that the server has started successfully — as soon as you see a message about the plugin admin page (or a warning that admin credentials have not been set), it’s up and running.
 
 ###### 10. Configure Etherpad
- - Open ~/etherpad/etherpad-lite/settings.json in a text editor
- - Uncomment the “users” object
- - Change the default password for the ‘admin’ and ‘user’ users if desired
- - Make note of the API key in ~/etherpad/etherpad-lite/APIKEY.txt.  You’ll need to include this in any request to the server.  Also note that this file must contain ONLY the one key, on one line — any commented lines will be interpreted as part of the key and will cause requests to be rejected.
+ - The etherpad server's settings are stored in ~/etherpad/etherpad-lite/settings.json, which includes a lot of comments.  This is problematic since EtherpadPaxosApp needs to read the port value from the file, and the JSON libraries in Java will try to process the comments as data.  Rather than having to delete all the comments manually, you can replace settings.json with the version \included with this readme.  You should make a backup of the original settings.json file first, since the comments do contain valuable information that you may want to refer to later.  If you choose to remove the comments yourself for some reason, you will also need to make the following changes:
+   - Uncomment the “users” object
+   - Change the default password for the ‘admin’ and ‘user’ users if desired
+ - You will also need to make sure that the contents of ~/etherpad/etherpad-lite/APIKEY.txt matches the apiKey variable in EtherpadPaxosApp.  If these do not match, the App will be unable to make any changes to the etherpad server.
+   - Also note that APIKEY.txt must contain ONLY the one key, on one line — any commented lines will be interpreted as part of the key and will cause requests to be rejected.
 
 ###### 11. Start the Etherpad Server
     screen ~/etherpad/etherpad-lite/bin/run.sh
@@ -77,21 +78,37 @@
 
 ###### 14. Create Copies of Etherpad
 In order to run a single-machine test, you'll need at least three distinct etherpad servers running on the same EC2 instance, each on a different port.  It's easiest to create the copies after performing the steps above to avoid repeating the setup processes for each one.  You should stop the etherpad server before entering the following commands, assuming it's still running from the previous step.
-
+    ```
     cd ~/etherpad
     mv etherpad-lite etherpad-lite-1
     cp -av etherpad-lite-1 etherpad-lite-2
     cp -av etherpad-lite-1 etherpad-lite-3
+    ```
     
 ###### 15. Configure the Port for each Etherpad Server
- - Once you've created copies of the etherpad-lite directory, you'll need to specify a differnt port number for each one to use.  Theoretically, you can use just about any port number you like as EtherpadPaxosApp will read the value from settigns.json when it starts, but it has only been tested with ports 9001-9003.
- - You'll need to modify the port value in the settings.json file in each ~/etherpad/etherpad-lite-X folder that you created above
- - I'd recommend setting etherpad-lite-1 to 9001, etherpad-lite-2 to 9002, and etherpad-lite-3 to 9003
+ - Once you've created copies of the etherpad-lite directory, you'll need to specify a different port number for each server to use.  Theoretically, you can use just about any port number you like as EtherpadPaxosApp will read the value from settigns.json when it starts.  That said, it has only been tested with ports 9001-9003, and obviously whatever ports you choose will need to be unused by other applications.
+ - Modify the port value in the settings.json file in each ~/etherpad/etherpad-lite-X folder that you created above
+   - I'd recommend setting etherpad-lite-1 to 9001, etherpad-lite-2 to 9002, and etherpad-lite-3 to 9003
 
 ###### 16. Start the Etherpad Servers
  - The same as in step 11 above, but for each of the three run.sh scripts in the etherpad-lite-X folders
  - You may also want to verify that they're all running as in step 12 above, but with the ports you specified in step 15
    - Make sure that if you modify the text on one etherpad server you don't see the change on either of the others (to confirm that they are in fact three separate servers with three separate databases)
+ - Note: Screen's -S option offers a handy way to label your screen sessions so that you can easily reattach a specific session to debug any issues.
+   - For example, launch and detach from each one as follows:
+        ```
+        screen -S etherpad1 ~/etherpad/etherpad-lite-1/bin/run.sh
+        Ctrl-a d
+        screen -S etherpad2 ~/etherpad/etherpad-lite-2/bin/run.sh
+        Ctrl-a d
+        screen -S etherpad3 ~/etherpad/etherpad-lite-3/bin/run.sh
+        Ctrl-a d
+        ```
+   - Then you can reattach the etherpad-lite-2 server with:
+        ```
+        screen -r etherpad2
+        ```
+    
 
 ###### 17. Clone the Gigapaxos Repository
     cd
